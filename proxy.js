@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
-import { auth } from "./app/lib/auth";
+import { auth } from "./src/app/lib/auth";
 
 // This function can be marked `async` if using `await` inside
 export async function proxy(request) {
