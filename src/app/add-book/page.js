@@ -40,7 +40,7 @@ export default function AddBookPage() {
     try {
       const token = localStorage.getItem("access-token");
       
-      const response = await fetch(`https://server-booknook-repo.vercel.app/api/books`, {
+      const response = await fetch(`http://localhost:8000/books`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

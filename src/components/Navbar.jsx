@@ -1,5 +1,4 @@
 "use client";
-import { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
@@ -8,26 +7,6 @@ import { authClient } from "../app/lib/auth-client";
 export default function Navbar() {
   const { data: session } = authClient.useSession();
   const router = useRouter();
-
-  useEffect(() => {
-    if (session?.user?.email) {
-      // Local backend-এর JWT টোকেন জেনারেট করার রাউটে রিকোয়েস্ট পাঠানো হচ্ছে
-      fetch("http://localhost:8000/api/jwt", { 
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: session.user.email }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.token) {
-            localStorage.setItem("access-token", data.token);
-          }
-        })
-        .catch((err) => console.error("JWT Error:", err));
-    } else {
-      localStorage.removeItem("access-token");
-    }
-  }, [session?.user?.email]);
 
   const handleLogout = async () => {
     try {
