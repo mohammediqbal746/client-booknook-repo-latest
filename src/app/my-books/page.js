@@ -26,19 +26,25 @@ export default function MyBooksPage() {
       return;
     }
 
-    const fetchBooks = async () => {
-      try {
-        const res = await fetch(`https://server-booknook-repo.vercel.app/api/books?email=${session.user.email}`);
+   const fetchBooks = async () => {
+    try {
+        // Vercel-এর বদলে আপাতত Localhost দিয়ে চেক করুন (ডেপ্লয়ের সময় Vercel লিংক দেবেন)
+        // /api/books এর বদলে শুধু /books হবে
+        const res = await fetch(`http://localhost:8000/books?email=${session?.user?.email}`);
         const data = await res.json();
-        if (data.success) {
-          setBooks(data.books);
+        
+        // যেহেতু ব্যাকএন্ড সরাসরি Array পাঠাচ্ছে, তাই data.success চেকের দরকার নেই
+        if (Array.isArray(data)) {
+            setBooks(data);
+        } else {
+            setBooks([]);
         }
-      } catch (error) {
+    } catch (error) {
         toast.error("Failed to load your books");
-      } finally {
+    } finally {
         setLoading(false);
-      }
-    };
+    }
+};
 
     fetchBooks();
   }, [session, isPending, router]);

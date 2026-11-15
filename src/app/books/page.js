@@ -9,22 +9,27 @@ export default function AllBooksPage() {
   const [filter, setFilter] = useState("All");
 
   useEffect(() => {
-    const fetchAllBooks = async () => {
+    const fetchBooks = async () => {
       try {
-        const res = await fetch("https://server-booknook-repo.vercel.app/api/books");
+        // Vercel লিংকের বদলে Localhost দেওয়া হলো (ডেপ্লয়ের সময় আপনার লাইভ লিংক দেবেন)
+        const res = await fetch("http://localhost:8000/books");
         const data = await res.json();
-        if (data.success) {
-          setBooks(data.books);
+
+        // যেহেতু ব্যাকএন্ড সরাসরি Array পাঠাচ্ছে, তাই data.success চেকের দরকার নেই
+        if (Array.isArray(data)) {
+          setBooks(data);
+        } else {
+          setBooks([]);
         }
       } catch (error) {
         toast.error("Failed to fetch books");
       } finally {
-        setLoading(false);
+        setLoading(false); // লোডিং বন্ধ করা হলো
       }
     };
 
-    fetchAllBooks();
-  }, []);
+    fetchBooks(); // ফাংশনটি কল করা হলো
+  }, []); // useEffect-এর ব্র্যাকেট ক্লোজ করা হলো
 
   // ক্যাটাগরি অনুযায়ী ফিল্টার করা
   const filteredBooks = filter === "All" 
