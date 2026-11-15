@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
@@ -6,6 +7,13 @@ import 'swiper/css/pagination';
 import Link from 'next/link';
 
 export default function Banner() {
+  // মাউন্টেড স্টেট তৈরি করা হলো
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const bannerData = [
     {
       id: 1,
@@ -29,6 +37,15 @@ export default function Banner() {
       bgClass: "bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600",
     }
   ];
+
+  // ব্রাউজারে লোড হওয়ার আগে একটি সুন্দর প্লেসহোল্ডার দেখাবে, এরর খাবে না
+  if (!isMounted) {
+    return (
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 z-0 relative">
+        <div className="w-full h-[350px] md:h-[450px] rounded-[2rem] bg-base-200 animate-pulse"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 z-0 relative">
